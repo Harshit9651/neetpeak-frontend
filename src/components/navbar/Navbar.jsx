@@ -1,0 +1,133 @@
+import { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { FiMenu, FiX, FiShoppingCart, FiDownload } from "react-icons/fi";
+
+const navItems = [
+  { to: "/", label: "Home" },
+  { to: "/product", label: "Product" },
+  { to: "/mentorship", label: "Mentorship" },
+  { to: "/contact", label: "Contact" },
+];
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const close = () => setOpen(false);
+    window.addEventListener("resize", close);
+    return () => window.removeEventListener("resize", close);
+  }, []);
+
+  return (
+    <header className="sticky top-4 z-50 mx-auto w-[min(96%,900px)] border-[1px] rounded-2xl overflow-hidden">
+      <div
+        className="bg-white/90 backdrop-blur"
+      >
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3">
+          
+          <Link to="/" className="flex items-center gap-2 shrink-0">
+            <img
+              src="/assets/logo.png"
+              alt="Neet Peak Logo"
+              className="h-[40px]"
+            />
+            <span className="hidden xs:block font-extrabold tracking-tight text-lg sm:text-xl">
+              NEET <span className="text-sky-500">PEAK</span>
+            </span>
+          </Link>
+
+          <nav className="hidden lg:flex items-center gap-x-12">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  `font-semibold text-base tracking-tight transition relative after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-sky-500 after:transition-[width] hover:after:w-full ${
+                    isActive ? "text-sky-600 after:w-full" : "text-gray-800"
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="hidden lg:flex items-center gap-4">
+            <Link
+              to="/download"
+              className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-bold text-white bg-[#50A8DA] hover:bg-sky-600 active:scale-[0.99] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-500"
+            >
+              Download App
+            </Link>
+            <Link to="/cart" className="relative p-2 rounded-xl hover:bg-sky-50 transition">
+              <FiShoppingCart className="text-sky-600 h-6 w-6" aria-hidden />
+              <span
+                className="absolute -top-1 -right-1 grid place-items-center rounded-full bg-blue-700 text-white text-[10px] font-bold h-5 w-5"
+                aria-label="Cart items"
+              >
+                1
+              </span>
+            </Link>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className="lg:hidden inline-flex items-center justify-center rounded-xl p-2.5 hover:bg-sky-50  focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+            aria-expanded={open}
+            aria-label="Toggle navigation"
+          >
+            {open ? <FiX className="h-6 w-6" /> : <FiMenu className="h-6 w-6" />}
+          </button>
+        </div>
+
+        <div
+          className={`lg:hidden overflow-hidden transition-[max-height] duration-300 ${
+            open ? "max-h-96" : "max-h-0"
+          }`}
+          aria-hidden={!open}
+        >
+          <nav className="px-4 sm:px-6 pb-4 flex flex-col gap-2">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                onClick={() => setOpen(false)}
+                className={({ isActive }) =>
+                  `rounded-xl px-3 py-2 text-base font-semibold transition hover:bg-sky-50 ${
+                    isActive ? "text-sky-700 bg-sky-50" : "text-gray-900"
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+
+            <div className="mt-2 flex items-center gap-3">
+              <Link
+                to="/download"
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-bold text-white bg-sky-500 hover:bg-sky-600 active:scale-[0.99] transition"
+                onClick={() => setOpen(false)}
+              >
+                <FiDownload aria-hidden />
+                Download App
+              </Link>
+             <Link
+              to="/cart"
+              className="relative p-2 rounded-xl hover:bg-sky-50"
+              onClick={() => setOpen(false)}
+            >
+              <FiShoppingCart className="text-sky-600 h-6 w-6" aria-hidden />
+              <span
+                className="absolute -top-1 -left-1 grid place-items-center rounded-full bg-blue-700 text-white text-[10px] font-bold h-5 w-5"
+              >
+                1
+              </span>
+            </Link>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+  );
+}
