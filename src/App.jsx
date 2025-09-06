@@ -8,6 +8,7 @@ import  SignIn  from "./pages/Auth/SignIn/Signin";
 import SignUp from "./pages/Auth/SignUp/Signup";
 import ForgotPassword from "./pages/Auth/Resetpassword/Resetpassword";
 import AboutUs from "./pages/About/Aboutus"
+import Product from "./pages/Product/product"
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
            <Route path="/signup" element={<SignUp />}/>  
               <Route path="/reset-password" element={<ForgotPassword />}/>  
                 <Route path="/aboutus" element={<AboutUs/>}/>  
+                  <Route path="/product" element={<Product/>}/>  
     </Routes>
     <Footer/>
   </>
