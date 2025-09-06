@@ -95,7 +95,6 @@ export default function Ready() {
             )}
           </p>
 
-          {}
           <div className="mt-8 flex flex-wrap gap-4 overflow-hidden">
             {!shouldReduceMotion ? (
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.35 }}>
@@ -136,26 +135,9 @@ export default function Ready() {
           </div>
         </div>
 
-        {}
         <div className="flex justify-center lg:justify-end">
-          <div className="relative w-64 sm:w-72 md:w-80 lg:w-96 h-[420px] md:h-[620px] rounded-3xl border-4 border-black/80 bg-white shadow-[0_25px_50px_rgba(0,0,0,0.08)] overflow-hidden">
-            <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-3 rounded-full bg-gray-200" />
-            <div className="absolute inset-6 rounded-2xl bg-gradient-to-b from-white to-[#f7fbff] overflow-hidden p-4 flex flex-col">
-              <div className="h-12 rounded-md bg-gray-100 flex items-center justify-center text-sm text-gray-400">
-                App Header Placeholder
-              </div>
-              <div className="mt-4 grid grid-cols-2 gap-3 flex-1">
-                <div className="rounded-md bg-gray-50 p-3 text-xs text-gray-500">No Data</div>
-                <div className="rounded-md bg-gray-50 p-3 text-xs text-gray-500">No Data</div>
-                <div className="rounded-md bg-gray-50 p-3 text-xs text-gray-500">No Data</div>
-                <div className="rounded-md bg-gray-50 p-3 text-xs text-gray-500">No Data</div>
-              </div>
-              <div className="mt-4 h-14 rounded-md bg-gray-100 flex items-center justify-center text-sm text-gray-400">
-                Bottom Nav Placeholder
-              </div>
-            </div>
-            <div className="absolute left-0 top-0 bottom-0 w-4 bg-black/5 rounded-l-3xl" />
-            <div className="absolute right-0 top-0 bottom-0 w-4 bg-black/5 rounded-r-3xl" />
+          <div className="relative w-64 sm:w-72 md:w-80 lg:w-96 h-[420px] md:h-[620px] border-black/80 bg-cover">
+            <img src="/assets/second_mobile.webp" alt="" />
           </div>
         </div>
       </div>
