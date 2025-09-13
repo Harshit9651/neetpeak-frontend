@@ -4,6 +4,7 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useStudentApi } from "../../../Services/studentAPi"; 
 import { useNavigate } from "react-router-dom";
+import {useAuth} from '../../../context/authContext'
 const inputVariants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
@@ -14,6 +15,7 @@ const inputVariants = {
 };
 
 export default function SignIn() {
+  const{setUserFromToken}  = useAuth()
 
   const [formData, setFormData] = useState({
     email: "",
@@ -58,6 +60,7 @@ export default function SignIn() {
         setFormData({ email: "", password: "" });
         setErrors({});
         toast.success("Signed in successfully!");
+        setUserFromToken(res.token); // Update auth context with user info
         Navigate("/");
       
       } else {

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FiMenu, FiX, FiShoppingCart, FiDownload } from "react-icons/fi";
+import { FiMenu, FiX, FiShoppingCart, FiDownload, FiLogOut } from "react-icons/fi";
+
+import { useCart } from "../../context/cartContext";
+import {useAuth} from "../../context/authContext"
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -11,12 +14,15 @@ const navItems = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const {user,logout} = useAuth()
+
 
   useEffect(() => {
     const close = () => setOpen(false);
     window.addEventListener("resize", close);
     return () => window.removeEventListener("resize", close);
   }, []);
+  const { cartCount } = useCart();
 
   return (
     <header className="sticky top-4 z-50 mx-auto w-[min(96%,900px)] border-[1px] rounded-2xl overflow-hidden">
@@ -59,22 +65,31 @@ export default function Navbar() {
             >
               Download App
             </Link>
+{user ? (
+  <button
+    onClick={logout}
+    className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-bold text-white bg-[#4B8DE0] hover:bg-blue-700 active:scale-[0.99] transition"
+  >
+    <FiLogOut className="h-5 w-5" />
+  </button>
+) : (
+  <Link
+    to="/signup"
+    className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-bold text-white bg-[#4B8DE0] hover:bg-blue-700 active:scale-[0.99] transition"
+  >
+    Sign Up
+  </Link>
+)}
 
-            <Link
-              to="/signup"
-              className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-bold text-white bg-[#4B8DE0] hover:bg-blue-700 active:scale-[0.99] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-            >
-              Sign Up
-            </Link>
 
-            <Link to="/cart" className="relative p-2 rounded-xl hover:bg-sky-50 transition">
+
+            <Link to="/mycart" className="relative p-2 rounded-xl hover:bg-sky-50 transition">
               <FiShoppingCart className="text-sky-600 h-6 w-6" aria-hidden />
-              <span
-                className="absolute -top-1 -right-1 grid place-items-center rounded-full bg-blue-700 text-white text-[10px] font-bold h-5 w-5"
-                aria-label="Cart items"
-              >
-                1
-              </span>
+               {cartCount > 0 && (
+    <span className="absolute -top-1 -right-1 grid place-items-center rounded-full bg-blue-700 text-white text-[10px] font-bold h-5 w-5">
+      {cartCount}
+    </span>
+  )}
             </Link>
           </div>
 
@@ -124,24 +139,41 @@ export default function Navbar() {
                 Download App
               </Link>
 
-              <Link
-                to="/signup"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-bold text-white bg-[#4B8DE0] hover:bg-blue-700 active:scale-[0.99] transition"
-                onClick={() => setOpen(false)}
-              >
-                Sign Up
-              </Link>
+      {user ? (
+  <button
+    onClick={() => {
+      logout();
+      setOpen(false);
+    }}
+    className="inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-bold text-white bg-red-500 hover:bg-red-600 active:scale-[0.99] transition"
+  >
+    <FiLogOut className="h-5 w-5" />
+    Logout
+  </button>
+) : (
+  <Link
+    to="/signup"
+    className="inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-bold text-white bg-[#4B8DE0] hover:bg-blue-700 active:scale-[0.99] transition"
+    onClick={() => setOpen(false)}
+  >
+    Sign Up
+  </Link>
+)}
 
-              <Link
-                to="/cart"
-                className="relative self-center p-2 rounded-xl hover:bg-sky-50"
-                onClick={() => setOpen(false)}
-              >
-                <FiShoppingCart className="text-sky-600 h-6 w-6" aria-hidden />
-                <span className="absolute -top-1 -right-1 grid place-items-center rounded-full bg-blue-700 text-white text-[10px] font-bold h-5 w-5">
-                  1
-                </span>
-              </Link>
+
+         <Link
+  to="/mycart"
+  className="relative self-center p-2 rounded-xl hover:bg-sky-50"
+  onClick={() => setOpen(false)}
+>
+  <FiShoppingCart className="text-sky-600 h-6 w-6" aria-hidden />
+  {cartCount > 0 && (
+    <span className="absolute -top-1 -right-1 grid place-items-center rounded-full bg-blue-700 text-white text-[10px] font-bold h-5 w-5">
+      {cartCount}
+    </span>
+  )}
+</Link>
+
             </div>
           </nav>
         </div>

@@ -13,6 +13,16 @@ export const API_ENDPOINTS = {
     updateForgotPassword:`${API_URL}/api/v1/student/student/Update-forgotPassword`,
     ChangeStudentPassword:`${API_URL}/api/v1/student/student/Change-StudentPassword`,
   },
+  products:{
+getProducts:`${API_URL}/api/v1/Product/ManageProduct/getProducts`,
+getProductById:`${API_URL}/api/v1/Product/ManageProduct/getProductById`,
+  },
+  Cart:{
+addToCart:`${API_URL}/api/v1/Cart/ManageCart/addToCart`,
+getCart:`${API_URL}/api/v1/Cart/ManageCart/getCart`,
+removeFromCart:`${API_URL}/api/v1/Cart/ManageCart/removeFromCart`,
+updateCart:`${API_URL}/api/v1/Cart/ManageCart/updateCart`
+  },
  
   getData: {
     getcollegeCourese : `${API_URL}/api/v1/college/college/getcollegecourses`,
@@ -39,9 +49,15 @@ export const API_ENDPOINTS = {
   },
   Payment:{
       createOrder:`${API_URL}/api/v1/Payment/ManagePayment/createOrder`,
-      verifyorder:`${API_URL}/api/v1/Payment/ManagePayment/verifyPayment`
-  }
+      verifyorder:`${API_URL}/api/v1/Payment/ManagePayment/verifyPayment`,
+      createProductOrder:`${API_URL}/api/v1/Payment/ManageProductPayment/createProductOrder`,
+        verifyProductOrder:`${API_URL}/api/v1/Payment/ManageProductPayment/verifyProductPayment`,
+  },
+    mentorship: {
+
+    listMentorshipPlan: `${API_URL}/api/v1/Mentorship/ManageMentorship/getMentorshipPlan`,
   
+  },
 };
 
 export const ERROR = {
