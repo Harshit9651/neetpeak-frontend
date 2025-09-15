@@ -1,30 +1,34 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FiMenu, FiX, FiShoppingCart, FiDownload } from "react-icons/fi";
+import { FiMenu, FiX, FiShoppingCart, FiDownload, FiLogOut } from "react-icons/fi";
+
+import { useCart } from "../../context/cartContext";
+import {useAuth} from "../../context/authContext"
 
 const navItems = [
   { to: "/", label: "Home" },
   { to: "/product", label: "Product" },
   { to: "/mentorship", label: "Mentorship" },
-  { to: "/contact", label: "Contact" },
+  { to: "/aboutus", label: "About Us" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const {user,logout} = useAuth()
+
 
   useEffect(() => {
     const close = () => setOpen(false);
     window.addEventListener("resize", close);
     return () => window.removeEventListener("resize", close);
   }, []);
+  const { cartCount } = useCart();
 
   return (
     <header className="sticky top-4 z-50 mx-auto w-[min(96%,900px)] border-[1px] rounded-2xl overflow-hidden">
-      <div
-        className="bg-white/90 backdrop-blur"
-      >
+      <div className="bg-white/90 backdrop-blur">
         <div className="flex items-center justify-between px-4 sm:px-6 py-3">
-          
+          {/* LOGO */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <img
               src="/assets/logo.png"
@@ -36,6 +40,7 @@ export default function Navbar() {
             </span>
           </Link>
 
+          {/* DESKTOP NAV */}
           <nav className="hidden lg:flex items-center gap-x-12">
             {navItems.map((item) => (
               <NavLink
@@ -52,6 +57,7 @@ export default function Navbar() {
             ))}
           </nav>
 
+          {/* DESKTOP BUTTONS */}
           <div className="hidden lg:flex items-center gap-4">
             <Link
               to="/download"
@@ -59,17 +65,35 @@ export default function Navbar() {
             >
               Download App
             </Link>
-            <Link to="/cart" className="relative p-2 rounded-xl hover:bg-sky-50 transition">
+{user ? (
+  <button
+    onClick={logout}
+    className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-bold text-white bg-[#4B8DE0] hover:bg-blue-700 active:scale-[0.99] transition"
+  >
+    <FiLogOut className="h-5 w-5" />
+  </button>
+) : (
+  <Link
+    to="/signup"
+    className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-bold text-white bg-[#4B8DE0] hover:bg-blue-700 active:scale-[0.99] transition"
+  >
+    Sign Up
+  </Link>
+)}
+
+
+
+            <Link to="/mycart" className="relative p-2 rounded-xl hover:bg-sky-50 transition">
               <FiShoppingCart className="text-sky-600 h-6 w-6" aria-hidden />
-              <span
-                className="absolute -top-1 -right-1 grid place-items-center rounded-full bg-blue-700 text-white text-[10px] font-bold h-5 w-5"
-                aria-label="Cart items"
-              >
-                1
-              </span>
+               {cartCount > 0 && (
+    <span className="absolute -top-1 -right-1 grid place-items-center rounded-full bg-blue-700 text-white text-[10px] font-bold h-5 w-5">
+      {cartCount}
+    </span>
+  )}
             </Link>
           </div>
 
+          {/* MOBILE TOGGLE BUTTON */}
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -81,6 +105,7 @@ export default function Navbar() {
           </button>
         </div>
 
+        {/* MOBILE MENU */}
         <div
           className={`lg:hidden overflow-hidden transition-[max-height] duration-300 ${
             open ? "max-h-96" : "max-h-0"
@@ -103,27 +128,52 @@ export default function Navbar() {
               </NavLink>
             ))}
 
-            <div className="mt-2 flex items-center gap-3">
+            {/* Mobile Buttons */}
+            <div className="mt-3 flex flex-col gap-3">
               <Link
                 to="/download"
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-bold text-white bg-sky-500 hover:bg-sky-600 active:scale-[0.99] transition"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-bold text-white bg-sky-500 hover:bg-sky-600 active:scale-[0.99] transition"
                 onClick={() => setOpen(false)}
               >
                 <FiDownload aria-hidden />
                 Download App
               </Link>
-             <Link
-              to="/cart"
-              className="relative p-2 rounded-xl hover:bg-sky-50"
-              onClick={() => setOpen(false)}
-            >
-              <FiShoppingCart className="text-sky-600 h-6 w-6" aria-hidden />
-              <span
-                className="absolute -top-1 -left-1 grid place-items-center rounded-full bg-blue-700 text-white text-[10px] font-bold h-5 w-5"
-              >
-                1
-              </span>
-            </Link>
+
+      {user ? (
+  <button
+    onClick={() => {
+      logout();
+      setOpen(false);
+    }}
+    className="inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-bold text-white bg-red-500 hover:bg-red-600 active:scale-[0.99] transition"
+  >
+    <FiLogOut className="h-5 w-5" />
+    Logout
+  </button>
+) : (
+  <Link
+    to="/signup"
+    className="inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-bold text-white bg-[#4B8DE0] hover:bg-blue-700 active:scale-[0.99] transition"
+    onClick={() => setOpen(false)}
+  >
+    Sign Up
+  </Link>
+)}
+
+
+         <Link
+  to="/mycart"
+  className="relative self-center p-2 rounded-xl hover:bg-sky-50"
+  onClick={() => setOpen(false)}
+>
+  <FiShoppingCart className="text-sky-600 h-6 w-6" aria-hidden />
+  {cartCount > 0 && (
+    <span className="absolute -top-1 -right-1 grid place-items-center rounded-full bg-blue-700 text-white text-[10px] font-bold h-5 w-5">
+      {cartCount}
+    </span>
+  )}
+</Link>
+
             </div>
           </nav>
         </div>

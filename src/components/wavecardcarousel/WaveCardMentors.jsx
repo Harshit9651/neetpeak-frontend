@@ -1,58 +1,35 @@
-import React, { useRef, useEffect } from "react";
-// eslint-disable-next-line no-unused-vars
+import React, { useRef, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import {useMentorshipApi } from "../../Services/mentorship.api"; // ✅ import API
+import { useNavigate } from "react-router-dom";
 
-/* Timing controls — tweak to taste */
-const CARD_SLIDE_X = -150; // container slide distance (px)
-const CARD_SLIDE_DUR = 0.5; // container slide duration (s)
-
-const LINE_STAGGER = 0.08; // delay between lines (top -> bottom)
-const CHAR_STEP = 0.012; // delay between characters within a line (left -> right)
-const CHAR_DUR = 0.12; // character fade duration
+/* Timing controls */
+const CARD_SLIDE_X = -150;
+const CARD_SLIDE_DUR = 0.5;
+const LINE_STAGGER = 0.08;
+const CHAR_STEP = 0.012;
+const CHAR_DUR = 0.12;
 
 export default function WaveCardMentors() {
-  const cards = [
-    {
-      id: 1,
-      icon: "/assets/test_1.png",
-      title: "3-Month Intensive Plan",
-      price: "₹1,499",
-      originalPrice: "₹2,999",
-      bullets: [
-        "Personal mentor assignment",
-        "Weekly 1-on-1 sessions",
-        "Study plan customization",
-        "Doubt clearing sessions",
-        "Performance tracking & analysis",
-      ],
-    },
-    {
-      id: 2,
-      icon: "/assets/test_2.png",
-      title: "6-Month Complete Plan",
-      price: "₹2,999",
-      originalPrice: "₹4,999",
-      isPopular: true,
-      bullets: [
-        "All features of 3-Month Plan",
-        "24/7 doubt resolution via WhatsApp",
-        "Stress management guidance",
-        "Parent-mentor sessions",
-        "Priority support",
-      ],
-    },
-  ];
-
+  const [cards, setCards] = useState([]);
   const containerRef = useRef(null);
-  const cardRefs = useRef(cards.map(() => React.createRef()));
+  const cardRefs = useRef([]);
 
+  // ✅ Fetch data from backend
   useEffect(() => {
-    if (cardRefs.current.length !== cards.length) {
-      cardRefs.current = cards.map(() => React.createRef());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards.length]);
+    const fetchPlans = async () => {
+      try {
+        const res = await useMentorshipApi.getMentorshipPlan();
+        if (res?.success && Array.isArray(res.data)) {
+          setCards(res.data);
+          cardRefs.current = res.data.map(() => React.createRef());
+        }
+      } catch (error) {
+        console.error("Error fetching mentorship plans:", error);
+      }
+    };
+    fetchPlans();
+  }, []);
 
   const scrollToIndex = (idx) => {
     const ref = cardRefs.current[idx];
@@ -69,13 +46,14 @@ export default function WaveCardMentors() {
     }
   };
 
+  // ✅ Auto focus first card
   useEffect(() => {
     setTimeout(() => {
       if (cardRefs.current[0] && cardRefs.current[0].current) {
         scrollToIndex(0);
       }
-    }, 50);
-  }, []);
+    }, 200);
+  }, [cards]);
 
   return (
     <div className="w-full flex justify-center py-8 px-4 mt-4 relative">
@@ -91,7 +69,7 @@ export default function WaveCardMentors() {
           >
             {cards.map((c, idx) => (
               <div
-                key={c.id}
+                key={c._id}
                 ref={cardRefs.current[idx]}
                 className="flex-1 min-w-[260px] max-w-[21rem] basis-[44%] snap-center"
                 style={{ flexBasis: "44%" }}
@@ -104,56 +82,35 @@ export default function WaveCardMentors() {
       </div>
 
       {/* Mobile prev/next */}
-      <div className="absolute left-2 bottom-1/2 sm:hidden z-40">
-        <button
-          onClick={() => scrollToIndex(0)}
-          aria-label="Prev"
-          className="bg-white/90 shadow-md rounded-full p-2 hover:bg-white transition"
-        >
-          <svg
-            className="w-5 h-5 text-gray-700"
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden
-          >
-            <path
-              d="M15 6L9 12L15 18"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-      </div>
-      <div className="absolute right-2 bottom-1/2 sm:hidden z-40">
-        <button
-          onClick={() => scrollToIndex(1)}
-          aria-label="Next"
-          className="bg-white/90 shadow-md rounded-full p-2 hover:bg-white transition"
-        >
-          <svg
-            className="w-5 h-5 text-gray-700"
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden
-          >
-            <path
-              d="M9 6L15 12L9 18"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-      </div>
+      {cards.length > 1 && (
+        <>
+          <div className="absolute left-2 bottom-1/2 sm:hidden z-40">
+            <button
+              onClick={() => scrollToIndex(0)}
+              aria-label="Prev"
+              className="bg-white/90 shadow-md rounded-full p-2 hover:bg-white transition"
+            >
+              ◀
+            </button>
+          </div>
+          <div className="absolute right-2 bottom-1/2 sm:hidden z-40">
+            <button
+              onClick={() => scrollToIndex(1)}
+              aria-label="Next"
+              className="bg-white/90 shadow-md rounded-full p-2 hover:bg-white transition"
+            >
+              ▶
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
 
 function RevealCard({ data }) {
   const shouldReduceMotion = useReducedMotion();
+    const navigate = useNavigate();
 
   const articleVariants = {
     hidden: { opacity: 0, x: CARD_SLIDE_X },
@@ -216,42 +173,27 @@ function RevealCard({ data }) {
       viewport={{ once: true, amount: 0.35 }}
       variants={articleVariants}
     >
-      {/* Decorative doodle */}
-      <div className="absolute left-1/2 -translate-x-1/2 -top-10 z-10 pointer-events-none">
-        <img src="/assets/doodle.svg" className="h-14 relative" alt="" />
-      </div>
-
-      {/* MOST POPULAR badge */}
-       {data.isPopular && (
-          <div className="absolute -top-12 -left-15 z-20 pointer-events-none w-30 max-[800px]:w-20 max-[800px]:-top-4 max-[800px]:-left-4">
-            <img
-              src="/assets/popular_badge.png"
-              alt="Most Popular Badge"
-              className="w-full h-auto"
-            />
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-bold text-sm max-[800px]:text-xs text-center">
-              Most Popular
-            </span>
-          </div>
-        )}
-
+      {/* Badge if Active */}
+      {data.isActive && (
+        <div className="absolute -top-12 -left-12 z-20 pointer-events-none">
+          
+        </div>
+      )}
 
       <motion.div variants={contentVariants} className="flex flex-col gap-2">
         <h3 className="text-base md:text-lg font-extrabold text-slate-800 mb-0 leading-snug text-center">
-          <Line text={data.title} />
+          <Line text={data.planName} />
         </h3>
 
         <div className="flex items-baseline gap-3 mb-2 mt-1 mx-auto">
           <span className="text-2xl md:text-3xl font-extrabold text-slate-900">
-            {data.price}
+            ₹{data.price}
           </span>
-          <span className="text-sm text-gray-600 line-through">
-            {data.originalPrice}
-          </span>
+          <span className="text-sm text-gray-600 line-through">₹{data.mrp}</span>
         </div>
 
         <ul className="space-y-1 mb-3">
-          {data.bullets.map((b, i) => (
+          {data.features?.map((f, i) => (
             <motion.li
               key={i}
               className="flex items-start gap-3"
@@ -265,9 +207,8 @@ function RevealCard({ data }) {
               >
                 ✔
               </motion.span>
-
               <div className="flex-1 text-xs font-bold">
-                <Line text={b} />
+                <Line text={f} />
               </div>
             </motion.li>
           ))}
@@ -275,12 +216,12 @@ function RevealCard({ data }) {
       </motion.div>
 
       <div className="mt-auto flex justify-center">
-        <button
+            <button
           type="button"
+          onClick={() => navigate("/mentorship-checkout", { state: { plan: data } })}
           className="inline-flex items-center gap-2 rounded-xl px-6 py-3 max-sm:text-sm font-extrabold text-white
-                        bg-gradient-to-t from-[#39538D] via-[#4968a3] to-[#57a1d3] cursor-pointer
-                        hover:brightness-110
-                        transition"
+            bg-gradient-to-t from-[#39538D] via-[#4968a3] to-[#57a1d3] cursor-pointer
+            hover:brightness-110 transition"
         >
           Enroll Now
         </button>
