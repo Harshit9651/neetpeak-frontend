@@ -11,23 +11,21 @@ export default function MentorshipCheckout() {
   const navigate = useNavigate();
   const plan = location.state?.plan;
 
-  const [finalPrice, setFinalPrice] = useState(plan?.price || 0); // ✅ price ko state me rakha
+  const [finalPrice, setFinalPrice] = useState(plan?.price || 0); 
   const [loading, setLoading] = useState(false);
 
-  // ✅ Auth check
   useEffect(() => {
     if (!isAuthenticated || !user?.id) {
       navigate("/signin");
     }
   }, [isAuthenticated, user, navigate]);
 
-  // ✅ Plan check
+
   if (!plan) {
     navigate("/");
     return null;
   }
 
-  // ✅ Razorpay Script inject
   useEffect(() => {
     if (!document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]')) {
       const script = document.createElement("script");
@@ -74,10 +72,10 @@ export default function MentorshipCheckout() {
           });
 
           if (verifyRes.success) {
-            alert("🎉 Payment Successful! Plan Enrolled.");
+            alert("Payment Successful! Plan Enrolled.");
             navigate("/");
           } else {
-            alert("❌ Payment failed: " + verifyRes.message);
+            alert("Payment failed: " + verifyRes.message);
           }
         },
         theme: {

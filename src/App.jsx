@@ -10,7 +10,6 @@ import ForgotPassword from "./pages/Auth/Resetpassword/Resetpassword";
 import AboutUs from "./pages/About/Aboutus"
 import Product from "./pages/Product/product"
 import CartPage from "./pages/Cart/Cart";
-// import CheckoutPage from "./pages/CheckOutPage/Checkout";
 import CheckoutPage from "./pages/CheckOutPage/checkoutPage1";
 import MentorshipCheckout from "./pages/CheckOutPage/MentorshipCheckout";
 import ProductDetails from "./pages/Product/ProductDetails"

@@ -25,8 +25,8 @@ console.log("selected product cart item detail is :", itemDetails)
   const productId = selectedItem?.productId;
   const productType = selectedItem?.productType;
 const finalTotal = discountApplied > 0 
-  ? discountApplied   // agar promo apply hua hai
-  : totals.subtotal || 0;  // otherwise original subtotal
+  ? discountApplied  
+  : totals.subtotal || 0;  
 
   console.log("hii the final total for :", finalTotal)
 
@@ -82,8 +82,6 @@ const handleApplyPromo = async () => {
       console.log("hii we are in Handle paymnet function ")
       const userId = user?.id;
       const totalAmountInPaise = Math.round(finalTotal * 100);
-
-      // ✅ Step 1: Create order in backend
       const orderRes = await useProductApi.createProductOrder({
         userId,
         productId,
@@ -91,21 +89,18 @@ const handleApplyPromo = async () => {
         shippingAddress: productType === "Book" ? shippingAddress : null,
         finalpriceInpaise :totalAmountInPaise
       });
-      console.log("hii the order response is :", orderRes)
+
 
       if (!orderRes.success) {
         alert(orderRes.message || "Failed to create order");
         return;
       }
 
-      // ✅ Free Order (skip Razorpay)
       if (orderRes.free) {
         alert("Free order applied successfully!");
         navigate("/");
         return;
       }
-
-      // ✅ Step 2: Open Razorpay Checkout
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: orderRes.amount,
@@ -115,7 +110,6 @@ const handleApplyPromo = async () => {
         image: selectedItem?.images?.[0] || "/placeholder.png",
         order_id: orderRes.orderId,
         handler: async function (response) {
-          // ✅ Step 3: Verify Payment
           const verifyRes = await useProductApi.verifyRazorpayProductPayment({
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
@@ -143,19 +137,17 @@ const handleApplyPromo = async () => {
   };
 
 const handlePayClick = () => {
-  // Book type product → show AddressForm instead of direct payment
   if (itemDetails?.productType === "Book" && !showAddressForm) {
     setShowAddressForm(true);
     return;
   }
 
-  // Agar Book aur address valid hai, ya non-book product → proceed payment
   if (itemDetails?.productType === "Book" && !isAddressValid) {
     alert("Please fill the shipping address to proceed.");
     return;
   }
 
-  handlePayment(); // original payment function
+  handlePayment(); 
 };
 
   return (

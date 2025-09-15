@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { User, Phone, Home, MapPin, Map, Hash } from "lucide-react"; // City hata diya
+import { User, Phone, Home, MapPin, Map, Hash } from "lucide-react"; 
 import statesDataJson from "./states.json";
 
 export default function AddressForm({onAddressChange , onValidChange }) {

@@ -62,13 +62,11 @@ const calculateTotals = (items) => {
   if (newQty < 1) return;
   setLocalLoading(true);
 
-  // store currently selected product id
+
   const currentSelectedId = selectedProduct?.productId;
 
   await updateQuantity(item.productId, newQty);
   await fetchCart();
-
-  // restore the same selected product if still exists
   if (currentSelectedId) {
     const updatedItem = cart.find(i => i.productId === currentSelectedId);
     if (updatedItem) {
@@ -80,7 +78,6 @@ const calculateTotals = (items) => {
 };
 
 
-  // Remove item
   const handleRemove = async (item) => {
     setLocalLoading(true);
     await removeFromCart(item.productId);
