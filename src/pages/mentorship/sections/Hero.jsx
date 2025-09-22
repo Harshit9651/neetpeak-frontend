@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { motion, useReducedMotion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -25,6 +26,11 @@ export default function Hero() {
   const headingRightChars = Array.from(headingRight);
   const blueHeadingChars = Array.from(blueHeading);
   const blueParaChars = Array.from(bluePara);
+  const navigate = useNavigate();
+  const handleClick = () => {
+    console.log("Button clicked!");
+    navigate("/mentorship-call-checkout");
+  }
 
   // if user prefers reduced motion, render plain accessible text
   if (shouldReduceMotion) {
@@ -58,6 +64,7 @@ export default function Hero() {
                       <button
                         className="!font-sans inline-block bg-white text-blue-400 rounded-full px-4 py-2 md:px-5 md:py-3 shadow-sm font-bold"
                         aria-label="Book demo call"
+                         onClick={() => handleClick()}
                       >
                         Book Demo Call @ ₹99
                       </button>
@@ -197,8 +204,9 @@ export default function Hero() {
                       whileInView={{ y: 0, opacity: 1 }}
                       viewport={{ once: true, amount: 0.35 }}
                       transition={{ duration: 0.36, delay: 0.36, ease: [0.22, 1, 0.36, 1] }}
+                       onClick={handleClick} 
                     >
-                      Book Demo Call @ ₹99
+                      Book Demo Call @ ₹199
                     </motion.button>
                   </div>
                 </div>

@@ -20,4 +20,50 @@ export const useMentorshipApi = {
       throw error;
     }
   },
+    createMentorshipCallBokkOrder:async (data) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetchWithAuth(
+        API_ENDPOINTS.Payment.mentorshipCallBookingOrder,
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response) return;
+      console.log("Promo validation response:", response);
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+    verifyMentorshipCallBokkRazorpayPayment:async (data) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetchWithAuth(
+        API_ENDPOINTS.Payment.verifyMentorshipCallOrder,
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response) return;
+      console.log("Promo validation response:", response);
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

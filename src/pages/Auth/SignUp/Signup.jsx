@@ -87,8 +87,9 @@ export default function SignUp() {
         phone: formData.phone.trim(),
         password: formData.password,
       };
-
+console.log("Signup payload:", payload);
       const res = await useStudentApi.registerStudent(payload);
+      console.log("Signup raw response:", res);
       const data = res;
       console.log("Signup response:", data);
 

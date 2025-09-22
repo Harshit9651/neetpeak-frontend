@@ -1,6 +1,7 @@
 // src/pages/AboutUs.jsx
 import { motion, useReducedMotion } from "framer-motion";
 
+
 export default function AboutUs() {
   const shouldReduceMotion = useReducedMotion();
 

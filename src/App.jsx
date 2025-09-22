@@ -12,6 +12,7 @@ import Product from "./pages/Product/product"
 import CartPage from "./pages/Cart/Cart";
 import CheckoutPage from "./pages/CheckOutPage/checkoutPage1";
 import MentorshipCheckout from "./pages/CheckOutPage/MentorshipCheckout";
+import MentorshipCallCheckout from "./pages/CheckOutPage/MentorshipCallCheckout"
 import ProductDetails from "./pages/Product/ProductDetails"
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
                   <Route path="/myCart" element={<CartPage/>}/>  
                    <Route path="/checkout" element={<CheckoutPage/>}/>  
                      <Route path="/mentorship-checkout" element={<MentorshipCheckout/>}/>  
+                             <Route path="/mentorship-call-checkout" element={<MentorshipCallCheckout/>}/> 
                                    <Route path="/productDetail/:id" element={<ProductDetails/>}/>  
     </Routes>
     <Footer/>
