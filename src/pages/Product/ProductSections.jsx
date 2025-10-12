@@ -119,7 +119,7 @@ export default function ProductSections() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await useProductApi.getProducts();
-      console.log("Fetched products:", data);
+  
       if (data.success) {
         setBooks(data.books);
         setOnlineProducts(data.onlineProducts);

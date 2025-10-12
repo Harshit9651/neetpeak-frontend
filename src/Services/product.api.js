@@ -16,11 +16,12 @@ getProducts: async () => {
         } },
        
       );
+      console.log("Data from getProducts API:", data);
 
      
       return data;
     } catch (error) {
-      console.error("Error in getCollegeCourses API:", error);
+      console.error("Error in getProducts API:", error);
       throw error;
     }
   },

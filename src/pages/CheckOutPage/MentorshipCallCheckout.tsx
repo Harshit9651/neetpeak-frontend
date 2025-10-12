@@ -87,8 +87,7 @@ const handleCallPayment = async () => {
 
         if (verifyRes.success) {
           setPaid(true);
-          alert("🎉 Call booked successfully! Mentor will contact you soon.");
-          navigate("/my-calls");
+          navigate("/call-booking-confirmation");
         } else {
           alert("Payment failed: " + verifyRes.message);
         }
@@ -304,7 +303,7 @@ const handleCallPayment = async () => {
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <span className="text-lg text-gray-500 line-through">₹299</span>
                   <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                    ₹99
+                   {`₹${CALL_PRICE}`}
                   </span>
                 </div>
                 

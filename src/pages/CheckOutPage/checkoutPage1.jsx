@@ -79,9 +79,10 @@ const handleApplyPromo = async () => {
 
  const handlePayment = async () => {
     try {
-      console.log("hii we are in Handle paymnet function ")
+  
       const userId = user?.id;
       const totalAmountInPaise = Math.round(finalTotal * 100);
+          const quantity = selectedItem?.quantity || 1;
       const orderRes = await useProductApi.createProductOrder({
         userId,
         productId,
@@ -116,11 +117,21 @@ const handleApplyPromo = async () => {
             razorpay_signature: response.razorpay_signature,
             productId,
             userId,
+              quantity: quantity,   
           });
 
           if (verifyRes.success) {
             alert("Payment successful!");
-            navigate("/account/courses");
+          navigate("/order-confirmation", {
+  state: {
+    productType,              
+    product: selectedItem, 
+    amount: finalTotal,      
+    quantity,                 
+    orderId: verifyRes.orderId, 
+  },
+});
+
           } else {
             alert("Payment failed: " + verifyRes.message);
           }
