@@ -40,8 +40,6 @@ export default function MentorshipCheckout() {
     try {
       setLoading(true);
       const totalAmountInPaise = Math.round(finalPrice * 100);
-
-     console.log("total price in pese :",totalAmountInPaise)
       const orderRes = await useProductApi.createOrder({
         amount: finalPrice,
         planId: plan._id,

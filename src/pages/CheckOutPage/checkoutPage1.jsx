@@ -49,10 +49,6 @@ const handleApplyPromo = async () => {
     const productId = selectedItem?.productId;
     const quantity = selectedItem?.quantity || 1;
     const userId = user ? user.id : null;
-
-    console.log("selected item is :", selectedItem);
-    console.log("selected product quantity is :", quantity);
-
     const res = await useProductApi.validatePromo({
       code: promoCode,
       productId: productId,
@@ -61,7 +57,6 @@ const handleApplyPromo = async () => {
     });
 
     if (res.success) {
-      console.log("hii the respone from backend side is :",res)
       setDiscountApplied(res.finalPrice);
       setDiscountPrice(res.discountAmount)
       setPromoError(null);
@@ -98,7 +93,6 @@ const handleApplyPromo = async () => {
       }
 
       if (orderRes.free) {
-        alert("Free order applied successfully!");
         navigate("/");
         return;
       }
@@ -121,7 +115,6 @@ const handleApplyPromo = async () => {
           });
 
           if (verifyRes.success) {
-            alert("Payment successful!");
           navigate("/order-confirmation", {
   state: {
     productType,              

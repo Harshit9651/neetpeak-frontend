@@ -56,7 +56,7 @@ const handleCallPayment = async () => {
       amount: CALL_PRICE,
       studentId: user.id,
     });
-    console.log("Order Response:", orderRes);
+    
 
     if (!orderRes.success) {
       alert(orderRes.message || "Failed to initiate order");
@@ -74,7 +74,7 @@ const handleCallPayment = async () => {
       order_id: orderRes.orderId,
 
       handler: async function (response) {
-        console.log("Payment Response:", response);
+       
 
         // Step 3: Verify payment
         const verifyRes = await useMentorshipApi.verifyMentorshipCallBokkRazorpayPayment({

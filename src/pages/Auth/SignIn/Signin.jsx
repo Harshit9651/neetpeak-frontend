@@ -2,9 +2,9 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { useStudentApi } from "../../../Services/studentAPi"; 
+import { useStudentApi } from "../../../Services/studentAPi";
 import { useNavigate } from "react-router-dom";
-import {useAuth} from '../../../context/authContext'
+import { useAuth } from "../../../context/authContext";
 const inputVariants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
@@ -15,7 +15,7 @@ const inputVariants = {
 };
 
 export default function SignIn() {
-  const{setUserFromToken}  = useAuth()
+  const { setUserFromToken } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -43,7 +43,6 @@ export default function SignIn() {
     return Object.keys(newErrors).length === 0;
   };
 
- 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
@@ -54,7 +53,6 @@ export default function SignIn() {
     try {
       setLoading(true);
       const res = await useStudentApi.loginStudent(formData);
-      console.log("Login response:", res);
 
       if (res.success) {
         setFormData({ email: "", password: "" });
@@ -62,7 +60,6 @@ export default function SignIn() {
         toast.success("Signed in successfully!");
         setUserFromToken(res.token); // Update auth context with user info
         Navigate("/");
-      
       } else {
         toast.error(res.message || "Invalid email or password.");
       }
@@ -140,40 +137,38 @@ export default function SignIn() {
             </motion.div>
 
             {/* Password */}
-        <motion.div
-  variants={inputVariants}
-  initial="hidden"
-  animate="visible"
-  className="flex flex-col gap-1 relative"
->
-  <input
-    type={showPassword ? "text" : "password"}
-    placeholder="Password"
-    value={formData.password}
-    onChange={(e) =>
-      setFormData({ ...formData, password: e.target.value })
-    }
-    className={`w-full rounded-2xl border px-5 py-3 pr-16 text-lg focus:outline-none 
+            <motion.div
+              variants={inputVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex flex-col gap-1 relative"
+            >
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+                className={`w-full rounded-2xl border px-5 py-3 pr-16 text-lg focus:outline-none 
     focus:ring-2 focus:ring-[#4B8DE0] ${
       errors.password ? "border-red-500" : "border-gray-300"
     }`}
-  />
-  <button
-    type="button"
-    onClick={() => setShowPassword(!showPassword)}
-    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm font-semibold hover:text-[#4B8DE0] transition"
-    aria-pressed={showPassword}
-  >
-    {showPassword ? "Hide" : "Show"}
-  </button>
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm font-semibold hover:text-[#4B8DE0] transition"
+                aria-pressed={showPassword}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
 
-  {errors.password && (
-    <p className="text-red-500 text-sm">{errors.password}</p>
-  )}
-</motion.div>
+              {errors.password && (
+                <p className="text-red-500 text-sm">{errors.password}</p>
+              )}
+            </motion.div>
 
-
-          
             <motion.button
               whileTap={{ scale: 0.95 }}
               type="submit"
@@ -191,7 +186,9 @@ export default function SignIn() {
             <button
               type="button"
               className="text-[#4B8DE0] font-bold hover:underline"
-              onClick={()=>{ Navigate("/reset-password")}}
+              onClick={() => {
+                Navigate("/reset-password");
+              }}
             >
               Reset here
             </button>

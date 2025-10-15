@@ -66,7 +66,7 @@ export default function Hero() {
                         aria-label="Book demo call"
                          onClick={() => handleClick()}
                       >
-                        Book Demo Call @ ₹99
+                        Book Demo Call @ ₹199
                       </button>
                     </div>
                   </div>

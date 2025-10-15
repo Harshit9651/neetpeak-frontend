@@ -38,8 +38,6 @@ export const useStudentApi = {
         `${API_ENDPOINTS.getData.getcollegeCourese}?collegeId=${collegeId}`,
         { method: "GET" }
       );
-
-      console.log("college course data is :", data.courses);
       return data;
     } catch (error) {
       console.error("Error in getCollegeCourses API:", error);
@@ -62,28 +60,25 @@ export const useStudentApi = {
 
       return data;
     } catch (error) {
-      console.error("Error in getStudentData API:", error);
       throw error;
     }
   },
   sendUserQuary: async (formData) => {
     try {
-     const response = await fetch(API_ENDPOINTS.other.sendQuaryToAdmin, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
- const data = await response.json(); // ✅ Parse JSON first
+      const response = await fetch(API_ENDPOINTS.other.sendQuaryToAdmin, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
 
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || "Failed to send query");
-    }
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Failed to send query");
+      }
 
-    return data;
-
-    return data;
+      return data;
     } catch (error) {
       console.error("Error :", error);
       throw error;
@@ -101,7 +96,6 @@ export const useStudentApi = {
           },
         }
       );
-      console.log("Mark Attendance API Response:", data);
       return data;
     } catch (error) {
       console.error("Error in markAttendance API:", error);
@@ -110,7 +104,6 @@ export const useStudentApi = {
   },
   uploadProfileImage: async (formData) => {
     try {
-      console.log("Uploading profile image with formData:", formData);
       const data = await fetchMultipartWithAuth(
         API_ENDPOINTS.other.uploadProfileImage,
         formData
@@ -118,13 +111,11 @@ export const useStudentApi = {
 
       return data;
     } catch (error) {
-      console.error("Error in uploadProfileImage API:", error);
       throw error;
     }
   },
   updateStudentProfile: async (payload) => {
     try {
-      console.log("hii7");
       const data = await fetchWithAuth(
         API_ENDPOINTS.other.updateStudentProfile,
         {
@@ -135,11 +126,8 @@ export const useStudentApi = {
           },
         }
       );
-      console.log("Update Student Profile API Response:", data);
-      console.log("hii8");
       return data;
     } catch (error) {
-      console.error("Error in updateStudentProfile API:", error);
       throw error;
     }
   },
@@ -155,10 +143,8 @@ export const useStudentApi = {
           },
         }
       );
-      console.log("Mark Attendance API Response:", data);
       return data;
     } catch (error) {
-      console.error("Error in markAttendance API:", error);
       throw error;
     }
   },
@@ -172,89 +158,97 @@ export const useStudentApi = {
     });
   },
   studentForgotPassword: async (email) => {
-
     try {
-      const res = await fetchWithAuth(API_ENDPOINTS.directStudent.forgotPassword, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email}),
-      });
-      
-      return res;
-      
-    } catch (err) {
-      console.error("Error in markAttendance API:", err);
-      throw err;
-    }
-  },
-  verifyForgotPasswordOTP:async({token,otp})=>{
-     try {
-      const res = await fetchWithAuth(API_ENDPOINTS.directStudent.verifyForgotPasswordOTP, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token,otp }),
-      });
- 
-      return res;
-      
-    } catch (err) {
-      console.error("Error in markAttendance API:", err);
-      throw err;
-    }
-  },
-  updateForgotPassword:async({token,email,newPassword })=>{
-     try {
-      const res = await fetchWithAuth(API_ENDPOINTS.directStudent.updateForgotPassword, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({token,email,newPassword }),
-      });
-     
-      return res;
-      
-    } catch (err) {
-      console.error("Error in markAttendance API:", err);
-      throw err;
-    }
-},
-changePassword:async({currentPassword,newPassword,studentType,StudentId})=>{
-  console.log("hii ye data ja ",currentPassword,newPassword,studentType,StudentId)
-     try {
-      const res = await fetchWithAuth(API_ENDPOINTS.directStudent.ChangeStudentPassword, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ currentPassword,
-        newPassword,studentType,StudentId}),
-      });
+      const res = await fetchWithAuth(
+        API_ENDPOINTS.directStudent.forgotPassword,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
 
       return res;
-      
+    } catch (err) {
+      throw err;
+    }
+  },
+  verifyForgotPasswordOTP: async ({ token, otp }) => {
+    try {
+      const res = await fetchWithAuth(
+        API_ENDPOINTS.directStudent.verifyForgotPasswordOTP,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token, otp }),
+        }
+      );
+
+      return res;
+    } catch (err) {
+      throw err;
+    }
+  },
+  updateForgotPassword: async ({ token, email, newPassword }) => {
+    try {
+      const res = await fetchWithAuth(
+        API_ENDPOINTS.directStudent.updateForgotPassword,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token, email, newPassword }),
+        }
+      );
+
+      return res;
+    } catch (err) {
+      throw err;
+    }
+  },
+  changePassword: async ({
+    currentPassword,
+    newPassword,
+    studentType,
+    StudentId,
+  }) => {
+    try {
+      const res = await fetchWithAuth(
+        API_ENDPOINTS.directStudent.ChangeStudentPassword,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentPassword,
+            newPassword,
+            studentType,
+            StudentId,
+          }),
+        }
+      );
+
+      return res;
     } catch (err) {
       console.error("Error in ChangePaaword API:", err);
       throw err;
     }
-},
- AddUserComment: async (payload) => {
+  },
+  AddUserComment: async (payload) => {
     try {
-      const data = await fetchWithAuth(API_ENDPOINTS.other.sendUserComment
-       ,
-         {
-        method: "POST",                    
-        body: JSON.stringify(payload),     
-      }
-      );
+      const data = await fetchWithAuth(API_ENDPOINTS.other.sendUserComment, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
 
       return data;
     } catch (error) {
-      console.error("Error in uploadProfileImage API:", error);
       throw error;
     }
   },
@@ -267,8 +261,7 @@ changePassword:async({currentPassword,newPassword,studentType,StudentId})=>{
 
       return data;
     } catch (error) {
-      console.error("Error in getStudentData API:", error);
       throw error;
     }
   },
-}
+};

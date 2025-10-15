@@ -14,7 +14,7 @@ const inputVariants = {
 };
 
 export default function ForgotPassword() {
-  const [step, setStep] = useState(1); // 1 = email, 2 = password reset
+  const [step, setStep] = useState(1); 
   const [formData, setFormData] = useState({
     email: "",
     password: "",

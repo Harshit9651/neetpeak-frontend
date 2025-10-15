@@ -81,7 +81,6 @@ const handlePayment = async () => {
       });
 
       if (res.success) {
-        alert("Free course applied successfully!");
              navigate("/account/courses");
       } else {
         alert("Something went wrong: " + res.message);
@@ -120,7 +119,7 @@ const handlePayment = async () => {
         });
 
         if (verifyRes.success) {
-          alert("Payment Successful! Course Purchased.");
+          
            navigate("/account/courses");
         } else {
           alert("Payment failed: " + verifyRes.message);

@@ -109,7 +109,7 @@ export default function Ready() {
                 >
                   Start Learning
                 </motion.button>
-
+{/* 
                 <motion.button
                   type="button"
                   custom={1}
@@ -118,7 +118,7 @@ export default function Ready() {
                   className="px-6 py-3 rounded-2xl bg-[#C2E2FF] text-[#1e73c9] font-extrabold  ml-4"
                 >
                   Try Free Lesson
-                </motion.button>
+                </motion.button> */}
               </motion.div>
             ) : (
               <>

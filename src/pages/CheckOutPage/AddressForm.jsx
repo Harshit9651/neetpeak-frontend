@@ -48,7 +48,6 @@ export default function AddressForm({onAddressChange , onValidChange }) {
       alert(error);
       return;
     }
-    console.log("✅ Final Address:", address);
     alert("Address saved successfully!");
   };
 

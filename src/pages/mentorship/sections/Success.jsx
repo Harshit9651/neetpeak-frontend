@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const containerVariant = {
   hidden: {},
@@ -22,6 +23,11 @@ const headerVariants = {
 
 
 export default function Success() {
+    const navigate = useNavigate();
+  const handleClick = () => {
+    console.log("Button clicked!");
+    navigate("/mentorship-call-checkout");
+  }
   return (
     <section className="w-full flex justify-center py-8 px-4 md:px-8">
       <div className="max-w-3xl relative w-full">
@@ -69,8 +75,9 @@ export default function Success() {
                     className="inline-flex items-center gap-2 rounded-xl px-3 py-2 max-sm:text-sm sm:px-6 sm:py-3 font-extrabold text-white
                              bg-gradient-to-t from-[#39538D] via-[#3B5A94] to-[#4FA2D5] cursor-pointer
                              hover:brightness-110 focus:outline-none mx-auto"
+                             onClick={() => handleClick()}
                   >
-                    Book Demo Call @ ₹99
+                    Book Demo Call @ ₹199
                   </button>
                 </motion.div>
           </div>

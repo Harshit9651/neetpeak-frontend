@@ -7,18 +7,20 @@ import Secondary from "./sections/Secondary";
 import Subjects from "./sections/Subjects";
 import Test from "./sections/Test";
 import Work from "./sections/Work";
+import ApiApprovalIssue from "./sections/pageFound.jsx";
 
 function Home() {
   return <>
-    <Hero/>
+    {/* <Hero/>
     <Secondary/>
     <Subjects/>
-    <Test/>
+
     <Work/>
     <Results/>
     <Path/>
     <Ready/>
-    <Materials/>
+    <Materials/> */}
+    <ApiApprovalIssue/>
   </>;
 }
 

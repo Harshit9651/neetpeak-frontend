@@ -5,116 +5,40 @@ import { fetchMultipartWithAuth } from "../../helper/fetchwithmultipartAuth";
 import { useAuth } from "../context/authContext";
 
 export const useCourseApi = {
-getCollegeCourses: async (collegeId) => {
+  getCollegeCourses: async (collegeId) => {
     try {
-      const data = await fetchWithAuth(
-        `${API_ENDPOINTS.other.getCourses}`,
-        { method: "GET" }
-      );
-
-      console.log("college course data is :", data.courses);
+      const data = await fetchWithAuth(`${API_ENDPOINTS.other.getCourses}`, {
+        method: "GET",
+      });
       return data;
     } catch (error) {
-      console.error("Error in getCollegeCourses API:", error);
       throw error;
     }
   },
   listAllCourses: async (collegeId) => {
-    const token = localStorage.getItem("token"); 
+    const token = localStorage.getItem("token");
     try {
       const data = await fetchWithAuth(
         `${API_ENDPOINTS.other.listAllCourses}`,
-        { method: "GET" ,
-        headers: {
-         
-          Authorization: `Bearer ${token}`,
-        } 
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
-
-      console.log("college course data is :", data.courses);
       return data;
     } catch (error) {
-      console.error("Error in getCollegeCourses API:", error);
       throw error;
     }
   },
   getCourseById: async (courseId) => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await fetchWithAuth(
-      `${API_ENDPOINTS.other.getCourseById}/${courseId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (!response) return;
-    console.log("Course details fetched:", response);
-
-    return response;
-  } catch (error) {
-    throw error;
-  }
-},
-getStudentCoursesSummary: async (studentId) => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await fetchWithAuth(
-      `${API_ENDPOINTS.other.getStudentCoursesSummary}/${studentId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (!response) return;
-    console.log("Course details fetched:", response);
-
-    return response;
-  } catch (error) {
-    throw error;
-  }
-},
-  getCourseProgress: async (userId,courseId,) => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await fetchWithAuth(
-      `${API_ENDPOINTS.other.getCourseProgress}/${userId}/course/${courseId}`
-,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (!response) return;
-    console.log("Course details fetched:", response);
-
-    return response;
-  } catch (error) {
-    throw error;
-  }
-},
-
-validatePromo:async (data) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetchWithAuth(
-        API_ENDPOINTS.other.validatePromo,
+        `${API_ENDPOINTS.other.getCourseById}/${courseId}`,
         {
-          method: "POST",
-          body: JSON.stringify(data),
+          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -123,21 +47,19 @@ validatePromo:async (data) => {
       );
 
       if (!response) return;
-      console.log("Promo validation response:", response);
 
       return response;
     } catch (error) {
       throw error;
     }
   },
-  createOrder:async (data) => {
+  getStudentCoursesSummary: async (studentId) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetchWithAuth(
-        API_ENDPOINTS.Payment.createOrder,
+        `${API_ENDPOINTS.other.getStudentCoursesSummary}/${studentId}`,
         {
-          method: "POST",
-          body: JSON.stringify(data),
+          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -146,21 +68,19 @@ validatePromo:async (data) => {
       );
 
       if (!response) return;
-      console.log("Promo validation response:", response);
 
       return response;
     } catch (error) {
       throw error;
     }
   },
-    verifyRazorpayPayment:async (data) => {
+  getCourseProgress: async (userId, courseId) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetchWithAuth(
-        API_ENDPOINTS.Payment.verifyorder,
+        `${API_ENDPOINTS.other.getCourseProgress}/${userId}/course/${courseId}`,
         {
-          method: "POST",
-          body: JSON.stringify(data),
+          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -169,61 +89,111 @@ validatePromo:async (data) => {
       );
 
       if (!response) return;
-      console.log("Promo validation response:", response);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  validatePromo: async (data) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetchWithAuth(API_ENDPOINTS.other.validatePromo, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response) return;
 
       return response;
     } catch (error) {
       throw error;
     }
   },
-  getPurchasedCourses:async(studentId)=>{
+  createOrder: async (data) => {
     try {
-    const token = localStorage.getItem("token");
-    const response = await fetchWithAuth(
-      `${API_ENDPOINTS.other.getCourseByStudentId}/${studentId}`,
-      {
-        method: "GET",
+      const token = localStorage.getItem("token");
+      const response = await fetchWithAuth(API_ENDPOINTS.Payment.createOrder, {
+        method: "POST",
+        body: JSON.stringify(data),
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-      }
-    );
+      });
 
-    if (!response) return;
-    console.log("Course details fetched:", response);
-
-    return response;
-  } catch (error) {
-    throw error;
-  }
-
+      if (!response) return;
+      return response;
+    } catch (error) {
+      throw error;
+    }
   },
-    getCourseVideos:async(courseId)=>{
+  verifyRazorpayPayment: async (data) => {
     try {
-    const token = localStorage.getItem("token");
-    const response = await fetchWithAuth(
-      `${API_ENDPOINTS.other.getCourseVideos}?courseId=${courseId}`
-,
-      {
-        method: "GET",
+      const token = localStorage.getItem("token");
+      const response = await fetchWithAuth(API_ENDPOINTS.Payment.verifyorder, {
+        method: "POST",
+        body: JSON.stringify(data),
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-      }
-    );
+      });
 
-    if (!response) return;
-    console.log("Course details fetched:", response);
+      if (!response) return;
 
-    return response;
-  } catch (error) {
-    throw error;
-  }
-
+      return response;
+    } catch (error) {
+      throw error;
+    }
   },
-  markVideoAsWatched:async (data) => {
+  getPurchasedCourses: async (studentId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetchWithAuth(
+        `${API_ENDPOINTS.other.getCourseByStudentId}/${studentId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response) return;
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  getCourseVideos: async (courseId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetchWithAuth(
+        `${API_ENDPOINTS.other.getCourseVideos}?courseId=${courseId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response) return;
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  markVideoAsWatched: async (data) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetchWithAuth(
@@ -239,7 +209,6 @@ validatePromo:async (data) => {
       );
 
       if (!response) return;
-      console.log("Promo validation response:", response);
 
       return response;
     } catch (error) {
@@ -252,5 +221,4 @@ validatePromo:async (data) => {
       body: JSON.stringify(data),
     });
   },
-
-}
+};

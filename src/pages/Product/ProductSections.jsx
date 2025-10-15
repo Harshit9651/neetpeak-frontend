@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { useProductApi } from "../../Services/product.api";
 import { useCart } from "../../context/cartContext"; 
-import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 
 
 
 function Card({ product }) {
   const { addToCart, loading } = useCart(); 
-  const { user } = useAuth(); 
   const navigate = useNavigate();
 
   const price = Number(product.price);       
@@ -17,14 +15,6 @@ function Card({ product }) {
   const discount = oldPrice && price
     ? Math.round(((oldPrice - price) / oldPrice) * 100)
     : 0;
-
-  const handleAddToCart = async (product) => {
-    if (!user?.id) {
-      navigate("/signin"); 
-      return;
-    }
-    await addToCart(product);
-  };
 
   return (
     <article className="flex-shrink-0 w-[360px] h-[500px] bg-white rounded-2xl shadow-lg flex flex-col overflow-hidden transition-transform hover:scale-105 hover:shadow-2xl">

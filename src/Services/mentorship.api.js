@@ -36,8 +36,6 @@ export const useMentorshipApi = {
       );
 
       if (!response) return;
-      console.log("Promo validation response:", response);
-
       return response;
     } catch (error) {
       throw error;
@@ -59,8 +57,6 @@ export const useMentorshipApi = {
       );
 
       if (!response) return;
-      console.log("Promo validation response:", response);
-
       return response;
     } catch (error) {
       throw error;

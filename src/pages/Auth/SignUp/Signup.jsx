@@ -87,12 +87,8 @@ export default function SignUp() {
         phone: formData.phone.trim(),
         password: formData.password,
       };
-console.log("Signup payload:", payload);
       const res = await useStudentApi.registerStudent(payload);
-      console.log("Signup raw response:", res);
       const data = res;
-      console.log("Signup response:", data);
-
       if (data && (data.success === true || res.ok)) {
         if (data.tempToken) setOtpToken(data.tempToken);
         setOtp(["", "", "", ""]);
@@ -212,7 +208,7 @@ console.log("Signup payload:", payload);
 
   const handleResendOtp = async () => {
     setLoading(true);
-    console.log("we are in resend otp function");
+   
     try {
       const payload = {
         name: formData.fullName.trim(),
@@ -224,8 +220,7 @@ console.log("Signup payload:", payload);
 
       const res = await useStudentApi.resendOtp(payload);
       const data = res;
-      console.log("Resend OTP response:", data);
-
+  
       if (data && (data.success === true || res.ok)) {
         if (data.tempToken) setOtpToken(data.tempToken);
         setTimeLeft(300);

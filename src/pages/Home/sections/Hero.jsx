@@ -131,7 +131,7 @@ export default function Hero() {
                   <IoIosRocket className="w-5 h-5" />
                 </motion.button>
 
-                <motion.button
+                {/* <motion.button
                   type="button"
                   variants={shouldReduceMotion ? { hidden: {}, visible: {} } : childVariants}
                   style={{ willChange: "transform, opacity" }}
@@ -139,7 +139,7 @@ export default function Hero() {
                              hover:bg-sky-200 focus:outline-none"
                 >
                   Try Free Lesson
-                </motion.button>
+                </motion.button> */}
               </div>
             </motion.div>
           </div>

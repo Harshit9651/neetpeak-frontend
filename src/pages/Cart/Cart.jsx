@@ -34,7 +34,6 @@ useEffect(() => {
     setSelectedProduct(null);
   }
 }, [cart]);
-console.log("hii the cart information is this :",cart)
 let shipping = 0; 
 
 const calculateTotals = (items) => {
@@ -84,7 +83,6 @@ const calculateTotals = (items) => {
     await fetchCart();
     setLocalLoading(false);
   };
-console.log("selected product is :" , selectedProduct)
 const handleCheckout = () => {
   if (selectedProduct && !selectedProduct.inStock) {
     toast.error("This product is out of stock. You cannot buy it.");
